@@ -35,7 +35,7 @@ runs:
         APPID: ${{ inputs.appid }}
         ORGID: ${{ inputs.orgid }}
         BUID: ${{ inputs.buid }}
-      run: bash scripts/calculate-tag.sh
+      run: bash ${{ github.action_path }}/scripts/calculate-tag.sh
 
     - name: Docker Build
       run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} ${{ inputs.docker-build-path }}
