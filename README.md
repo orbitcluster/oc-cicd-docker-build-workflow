@@ -49,9 +49,9 @@ flowchart TD
 
     Output --> End([End])
 
-    classDef startend fill:#90EE90,stroke:#333,stroke-width:2px;
-    classDef process fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    classDef decision fill:#FFFFE0,stroke:#333,stroke-width:2px;
+    classDef startend fill:#90EE90,stroke:#333,stroke-width:2px,color:#000;
+    classDef process fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000;
+    classDef decision fill:#FFFFE0,stroke:#333,stroke-width:2px,color:#000;
 
     class Start,End startend;
     class UseInput,UseRepo,Validate,FetchTags,LatestTag,Output,SanitizeBranch,BranchTag process;
