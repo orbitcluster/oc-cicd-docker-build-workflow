@@ -34,12 +34,12 @@ if [ "$BRANCH_NAME" == "main" ]; then
 else
   # Sanitize branch name (replace slashes with hyphens)
   SAFE_BRANCH_NAME=$(echo "$BRANCH_NAME" | tr '/' '-')
-  
+
   # Get IDs or default to 0
   APPID=${APPID:-0}
   ORGID=${ORGID:-0}
   BUID=${BUID:-0}
-  
+
   DOCKER_TAG="${SAFE_BRANCH_NAME}-${APPID}-${ORGID}-${BUID}"
 fi
 
