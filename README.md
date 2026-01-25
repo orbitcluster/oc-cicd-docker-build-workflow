@@ -46,6 +46,16 @@ flowchart TD
     SanitizeBranch --> BranchTag[Use Branch Name as Tag]
     BranchTag --> Output
     Output --> End([End])
+
+    Output --> End([End])
+
+    classDef startend fill:#90EE90,stroke:#333,stroke-width:2px;
+    classDef process fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    classDef decision fill:#FFFFE0,stroke:#333,stroke-width:2px;
+
+    class Start,End startend;
+    class UseInput,UseRepo,Validate,FetchTags,LatestTag,Output,SanitizeBranch,BranchTag process;
+    class InputImage,CheckBranch decision;
 ```
 
 - **Main Branch**: Uses the latest git tag (e.g., `v1.0.0`).
