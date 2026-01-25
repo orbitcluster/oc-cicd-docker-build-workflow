@@ -1,0 +1,43 @@
+name: "Docker Build"
+description: "Build Docker image"
+inputs:
+  docker-build-path:
+    description: "Path to the source code for Docker build"
+    required: false
+    default: "."
+  image-name:
+    description: "Name of the Docker image"
+    required: false
+  appid:
+    description: "Application ID"
+    required: false
+    default: "0"
+  orgid:
+    description: "Organization ID"
+    required: false
+    default: "0"
+  buid:
+    description: "Business Unit ID"
+    required: false
+    default: "0"
+runs:
+  using: "composite"
+  steps:
+    - name: Docker Tag
+      shell: bash
+      env:
+        IMAGE_NAME: ${{ inputs.image-name }}
+        APPID: ${{ inputs.appid }}
+        ORGID: ${{ inputs.orgid }}
+        BUID: ${{ inputs.buid }}
+      run: bash ${{ github.action_path }}/scripts/calculate-tag.sh
+
+    - name: Docker Build
+      run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} ${{ inputs.docker-build-path }}
+      shell: bash
+
+    - name: Docker Scan
+      uses: orbitcluster/oc-cicd-docker-scan-workflow@v1
+      with:
+        image-name: ${{ env.IMAGE_NAME }}
+        image-tag: ${{ env.DOCKER_TAG }}
