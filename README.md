@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build Docker Image
         uses: orbitcluster/oc-cicd-docker-build-workflow@v1
@@ -49,10 +51,9 @@ flowchart TD
     FetchTags --> LatestTag[Use Latest Git Tag]
     LatestTag --> Output[Set DOCKER_TAG]
     CheckBranch -- No --> SanitizeBranch[Sanitize Branch Name]
-    SanitizeBranch --> BranchTag[Use Branch Name as Tag]
-    BranchTag --> Output
-    Output --> End([End])
-
+    SanitizeBranch --> GetIDs[Get appid, orgid, buid]
+    GetIDs --> FormatTag[Format: branch-appid-orgid-buid]
+    FormatTag --> Output
     Output --> End([End])
 
     classDef startend fill:#90EE90,stroke:#333,stroke-width:2px,color:#000;
@@ -60,7 +61,7 @@ flowchart TD
     classDef decision fill:#FFFFE0,stroke:#333,stroke-width:2px,color:#000;
 
     class Start,End startend;
-    class UseInput,UseRepo,Validate,FetchTags,LatestTag,Output,SanitizeBranch,BranchTag process;
+    class UseInput,UseRepo,Validate,FetchTags,LatestTag,Output,SanitizeBranch,GetIDs,FormatTag process;
     class InputImage,CheckBranch decision;
 ```
 
