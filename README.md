@@ -8,6 +8,9 @@ A composite GitHub Action to build a Docker image. It automatically calculates t
 | ------------------- | ------------------------------------------------------------------------------ | -------- | ------------------------------------ |
 | `image-name`        | Name of the Docker image. If not provided, it defaults to the repository name. | `false`  | `github.repository` (repo name only) |
 | `docker-build-path` | Path to the source code for Docker build.                                      | `false`  | `.`                                  |
+| `appid`             | Application ID                                                                 | `false`  | `0`                                  |
+| `orgid`             | Organization ID                                                                | `false`  | `0`                                  |
+| `buid`              | Business Unit ID                                                               | `false`  | `0`                                  |
 
 ## Outputs
 
@@ -27,6 +30,9 @@ jobs:
         with:
           image-name: my-app-image
           docker-build-path: ./app
+          appid: "123"
+          orgid: "456"
+          buid: "789"
 ```
 
 ## Tag Calculation Logic
@@ -59,7 +65,9 @@ flowchart TD
 ```
 
 - **Main Branch**: Uses the latest git tag (e.g., `v1.0.0`).
-- **Other Branches**: Formatted as `<branch-name>`, where slashes `/` are replaced with hyphens `-`.
+- **Other Branches**: Formatted as `<branch-name>-<appid>-<orgid>-<buid>`, where:
+  - `branch-name`: Slashes `/` are replaced with hyphens `-`.
+  - `appid`, `orgid`, `buid`: Defaults to `0` if not provided.
 
 ## Image Scanning
 

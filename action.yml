@@ -8,7 +8,18 @@ inputs:
   image-name:
     description: "Name of the Docker image"
     required: false
-
+  appid:
+    description: "Application ID"
+    required: false
+    default: "0"
+  orgid:
+    description: "Organization ID"
+    required: false
+    default: "0"
+  buid:
+    description: "Business Unit ID"
+    required: false
+    default: "0"
 runs:
   using: "composite"
   steps:
@@ -20,7 +31,10 @@ runs:
     - name: Docker Tag
       shell: bash
       env:
-        INPUT_IMAGE_NAME: ${{ inputs.image-name }}
+        IMAGE_NAME: ${{ inputs.image-name }}
+        APPID: ${{ inputs.appid }}
+        ORGID: ${{ inputs.orgid }}
+        BUID: ${{ inputs.buid }}
       run: bash scripts/calculate-tag.sh
 
     - name: Docker Build
