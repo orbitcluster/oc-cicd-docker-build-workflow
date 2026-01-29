@@ -26,7 +26,11 @@ if [ -n "$TAG_OVERRIDE" ]; then
     BASE_VERSION="$TAG_OVERRIDE"
 else
     # Try to get latest git tag
-    if git describe --tags --abbrev=0 > /dev/null 2>&1; then
+    # Try to get latest git tag matching SemVer (vX.Y.Z)
+    if git describe --tags --abbrev=0 --match "v*.*.*" > /dev/null 2>&1; then
+        BASE_VERSION=$(git describe --tags --abbrev=0 --match "v*.*.*")
+    elif git describe --tags --abbrev=0 > /dev/null 2>&1; then
+        # Fallback to any tag if semver not found
         BASE_VERSION=$(git describe --tags --abbrev=0)
     else
         echo "No git tags found, using default 0.0.0"
