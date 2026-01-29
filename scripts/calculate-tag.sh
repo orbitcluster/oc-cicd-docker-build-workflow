@@ -58,13 +58,13 @@ if [ "$BRANCH_NAME" == "main" ]; then
     DOCKER_TAG="${BASE_VERSION}"
 else
     echo "Branch is ${BRANCH_NAME}. Generating pre-release version."
-    
+
     # Sanitize branch name (replace slashes/underscores with hyphens)
     SAFE_BRANCH=$(echo "${BRANCH_NAME}" | tr '/_' '-')
-    
+
     # Short SHA
     SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-    
+
     # If SHA is empty (running locally without env var), try git
     if [ -z "$SHORT_SHA" ]; then
         SHORT_SHA=$(git rev-parse --short HEAD)
