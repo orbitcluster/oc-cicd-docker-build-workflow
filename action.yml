@@ -22,6 +22,10 @@ inputs:
   tag-override:
     description: "Force specific tag/version"
     required: false
+  build-image:
+    description: "Whether to build the image (true/false)"
+    required: false
+    default: "true"
 outputs:
   docker-tag:
     description: "The calculated Docker tag"
@@ -48,10 +52,12 @@ runs:
       run: bash ${{ github.action_path }}/scripts/calculate-tag.sh
 
     - name: Docker Build
+      if: inputs.build-image == 'true'
       run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} ${{ inputs.docker-build-path }}
       shell: bash
 
     - name: Docker Scan
+      if: inputs.build-image == 'true'
       uses: orbitcluster/oc-cicd-docker-scan-workflow@v1
       with:
         image-name: ${{ env.IMAGE_NAME }}
