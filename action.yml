@@ -30,6 +30,9 @@ outputs:
   docker-tag:
     description: "The calculated Docker tag"
     value: ${{ steps.tag.outputs.docker-tag }}
+  docker-tags:
+    description: "All generated tags, comma-separated"
+    value: ${{ steps.tag.outputs.docker-tags }}
   safe-branch:
     description: "The sanitized branch name used in tag"
     value: ${{ steps.tag.outputs.safe-branch }}

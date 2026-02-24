@@ -49,6 +49,8 @@ echo "safe-branch=${SAFE_BRANCH}" >> $GITHUB_OUTPUT
 
 if [ "$BRANCH_NAME" == "main" ]; then
   echo "IS_MAIN=true" >> $GITHUB_ENV
+  echo "docker-tags=$DOCKER_TAG,latest" >> $GITHUB_OUTPUT
 else
   echo "IS_MAIN=false" >> $GITHUB_ENV
+  echo "docker-tags=$DOCKER_TAG" >> $GITHUB_OUTPUT
 fi
