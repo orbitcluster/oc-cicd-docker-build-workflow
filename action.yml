@@ -53,7 +53,12 @@ runs:
 
     - name: Docker Build
       if: inputs.build-image == 'true'
-      run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} ${{ inputs.docker-build-path }}
+      run: |
+        if [ "${{ env.IS_MAIN }}" == "true" ]; then
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} -t ${{ env.IMAGE_NAME }}:latest ${{ inputs.docker-build-path }}
+        else
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} ${{ inputs.docker-build-path }}
+        fi
       shell: bash
 
     - name: Docker Scan

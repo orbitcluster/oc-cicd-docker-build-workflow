@@ -1,6 +1,6 @@
 CI/CD Docker Build Workflow
 
-A composite GitHub Action to build a Docker image. It automatically calculates the Docker tag based on the branch name and date, or uses the git tag for `main` branch.
+A composite GitHub Action to build a Docker image. It automatically calculates the Docker tag based on the branch name and Git SHA, or uses the base version (with an additional `latest` tag) for the `main` branch.
 
 ## Inputs
 
@@ -47,12 +47,12 @@ flowchart TD
     UseInput --> Validate[Validate & Sanitize using lowercase]
     UseRepo --> Validate
     Validate --> CheckBranch{Branch is main?}
-    CheckBranch -- Yes --> FetchTags[Fetch Tags]
-    FetchTags --> LatestTag[Use Latest Git Tag]
+    CheckBranch -- Yes --> FetchTags[Fetch Tags or Override]
+    FetchTags --> LatestTag[Use Base Version and add 'latest' tag]
     LatestTag --> Output[Set DOCKER_TAG]
     CheckBranch -- No --> SanitizeBranch[Sanitize Branch Name]
-    SanitizeBranch --> GetIDs[Get appid, orgid, buid]
-    GetIDs --> FormatTag[Format: branch-appid-orgid-buid]
+    SanitizeBranch --> GetSHA[Get Git Commit SHA]
+    GetSHA --> FormatTag[Format: base-branch-sha]
     FormatTag --> Output
     Output --> End([End])
 
@@ -65,10 +65,10 @@ flowchart TD
     class InputImage,CheckBranch decision;
 ```
 
-- **Main Branch**: Uses the latest git tag (e.g., `v1.0.0`).
-- **Other Branches**: Formatted as `<branch-name>-<appid>-<orgid>-<buid>`, where:
-  - `branch-name`: Slashes `/` are replaced with hyphens `-`.
-  - `appid`, `orgid`, `buid`: Defaults to `0` if not provided.
+- **Main Branch**: Uses the base version determined by git tags or overrides (e.g., `v1.0.0`). The image is additionally tagged with `latest`.
+- **Other Branches**: Formatted as `<base-version>-<safe-branch-name>-<short-sha>`, where:
+  - `safe-branch-name`: Slashes `/` and underscores `_` are replaced with hyphens `-`.
+  - `short-sha`: The 7-character Git commit SHA.
 
 ## Image Scanning
 
