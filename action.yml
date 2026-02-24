@@ -27,9 +27,6 @@ inputs:
     required: false
     default: "true"
 outputs:
-  docker-tag:
-    description: "The calculated Docker tag"
-    value: ${{ steps.tag.outputs.docker-tag }}
   docker-tags:
     description: "All generated tags, comma-separated"
     value: ${{ steps.tag.outputs.docker-tags }}

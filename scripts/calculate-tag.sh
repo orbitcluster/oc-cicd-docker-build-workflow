@@ -44,7 +44,6 @@ DOCKER_TAG="${BASE_VERSION}"
 
 echo "Calculated Docker Tag: $DOCKER_TAG"
 echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV
-echo "docker-tag=$DOCKER_TAG" >> $GITHUB_OUTPUT
 echo "safe-branch=${SAFE_BRANCH}" >> $GITHUB_OUTPUT
 
 if [ "$BRANCH_NAME" == "main" ]; then
