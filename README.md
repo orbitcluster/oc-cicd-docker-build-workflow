@@ -14,7 +14,12 @@ A composite GitHub Action to build a Docker image. It automatically calculates t
 
 ## Outputs
 
-This action does not produce any direct outputs, but it builds a docker image with the tag available in the environment as `DOCKER_TAG`.
+| Name          | Description                                 |
+| ------------- | ------------------------------------------- |
+| `docker-tags` | All generated Docker tags, comma-separated. |
+| `safe-branch` | The sanitized branch name used in the tag.  |
+
+This action builds a docker image and adds the primary tag to the environment as `DOCKER_TAG`.
 
 ## Usage
 
