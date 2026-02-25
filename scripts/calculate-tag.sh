@@ -40,7 +40,7 @@ SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
 SHORT_SHA=${SHORT_SHA:-$(git rev-parse --short HEAD)}
 
 DOCKER_TAG="${BASE_VERSION}"
-[ "$BRANCH_NAME" != "main" ] && DOCKER_TAG="${BASE_VERSION}-${SAFE_BRANCH}-${SHORT_SHA}"
+[ "$BRANCH_NAME" != "main" ] && DOCKER_TAG="${SAFE_BRANCH}-${SHORT_SHA}"
 
 echo "Calculated Docker Tag: $DOCKER_TAG"
 echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV

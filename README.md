@@ -57,7 +57,7 @@ flowchart TD
     LatestTag --> Output[Set DOCKER_TAG]
     CheckBranch -- No --> SanitizeBranch[Sanitize Branch Name]
     SanitizeBranch --> GetSHA[Get Git Commit SHA]
-    GetSHA --> FormatTag[Format: base-branch-sha]
+    GetSHA --> FormatTag[Format: branch-sha]
     FormatTag --> Output
     Output --> End([End])
 
@@ -71,7 +71,7 @@ flowchart TD
 ```
 
 - **Main Branch**: Uses the base version determined by git tags or overrides (e.g., `v1.0.0`). The image is additionally tagged with `latest`.
-- **Other Branches**: Formatted as `<base-version>-<safe-branch-name>-<short-sha>`, where:
+- **Other Branches**: Formatted as `<safe-branch-name>-<short-sha>`, where:
   - `safe-branch-name`: Slashes `/` and underscores `_` are replaced with hyphens `-`.
   - `short-sha`: The 7-character Git commit SHA.
 
