@@ -36,8 +36,18 @@ BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-$(git rev-parse --abbrev-ref H
 # If main branch: use version only
 # If not main: use version-branch-sha
 SAFE_BRANCH=$(echo "${BRANCH_NAME}" | tr '/_' '-')
-SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-SHORT_SHA=${SHORT_SHA:-$(git rev-parse --short HEAD)}
+# Determine true HEAD commit specifically to avoid GitHub Actions simulated PR merge commits
+# We check if HEAD is a merge commit by counting its parents.
+if [ $(git log -1 --format="%P" HEAD | wc -w) -gt 1 ]; then
+  # It's a merge commit. The second parent is the incoming PR branch HEAD.
+  TRUE_SHA=$(git log -1 --format="%P" HEAD | awk '{print $2}')
+else
+  # It's a normal commit. Use HEAD directly.
+  TRUE_SHA=$(git rev-parse HEAD)
+fi
+
+# ArgoCD ApplicationSets construct PR tags using exactly the first 8 characters
+SHORT_SHA=$(echo "${TRUE_SHA}" | cut -c1-8)
 
 DOCKER_TAG="${BASE_VERSION}"
 [ "$BRANCH_NAME" != "main" ] && DOCKER_TAG="${SAFE_BRANCH}-${SHORT_SHA}"
