@@ -48,7 +48,7 @@ runs:
         TAG_OVERRIDE: ${{ inputs.tag-override }}
         GITHUB_REF_NAME: ${{ github.ref_name }}
         GITHUB_HEAD_REF: ${{ github.head_ref }}
-        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       run: bash ${{ github.action_path }}/scripts/calculate-tag.sh
 
     - name: Docker Build
